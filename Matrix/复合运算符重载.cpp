@@ -44,3 +44,19 @@ template <class T> Matrix <T> &Matrix <T>::operator %=(int M)//自模
             v[i][j] = ((v[i][j] % M) + M) % M;
     return *this;
 }
+template <class T> Square <T> &Square <T>::operator ^=(int num)//乘方
+{
+    int n = Matrix <T>::r;
+    Square <T> ans(n), temp(*this);
+    for (int i = 1; i <= n; ++i) ans[i][i] = 1;
+    while (num)
+    {
+        if (num & 1) ans *= temp;//!!此处有必要时添加取模:ans = (ans * temp) % MOD;!!
+        temp *= temp;//!!此处有必要时添加取模:temp = (temp * temp) % MOD;!!
+        num >>= 1;
+    }
+    for (int i = 1; i <= n; ++i)
+        for (int j = 1; j <= n; ++j)
+            Matrix <T>::v[i][j] = ans[i][j];
+    return *this;
+}
